@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Processor</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+
+      .container {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 24px;
+        color: #333;
+      }
+
+      label {
+        display: block;
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 6px;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #333;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #555;
+      }
+
+      #result {
+        margin-top: 24px;
+        text-align: center;
+      }
+
+      #result img {
+        max-width: 100%;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+      }
+
+      #error {
+        color: red;
+        font-size: 14px;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Image Processor</h1>
+
+      <label>Filename (without extension)</label>
+      <input type="text" id="filename" placeholder="e.g. Zoro" />
+
+      <label>Width (px)</label>
+      <input type="number" id="width" placeholder="e.g. 200" />
+
+      <label>Height (px)</label>
+      <input type="number" id="height" placeholder="e.g. 200" />
+
+      <label>Format</label>
+      <select id="format">
+        <option value="jpg">JPG</option>
+        <option value="png">PNG</option>
+        <option value="webp">WebP</option>
+      </select>
+
+      <button onclick="processImage()">Process Image</button>
+
+      <div id="result"></div>
+      <div id="error"></div>
+    </div>
+
+    <script>
+      function processImage() {
+        const filename = document.getElementById('filename').value.trim();
+        const width = document.getElementById('width').value.trim();
+        const height = document.getElementById('height').value.trim();
+        const format = document.getElementById('format').value;
+
+        document.getElementById('result').innerHTML = '';
+        document.getElementById('error').innerHTML = '';
+
+        if (!filename || !width || !height) {
+          document.getElementById('error').innerHTML = 'Please fill in all fields';
+          return;
+        }
+
+        const url = `/api/images?filename=${filename}&width=${width}&height=${height}&format=${format}`;
+
+        const img = document.createElement('img');
+        img.src = url;
+        img.onerror = () => {
+          document.getElementById('error').innerHTML = 'Image not found or invalid inputs';
+        };
+
+        document.getElementById('result').appendChild(img);
+      }
+    </script>
+  </body>
+</html>

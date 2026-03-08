@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thumbnail Gallery</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        padding: 40px 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 24px;
+        text-align: center;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 16px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .card {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .card img {
+        width: 100%;
+        display: block;
+      }
+
+      .card p {
+        font-size: 12px;
+        color: #555;
+        padding: 8px;
+        text-align: center;
+      }
+
+      #empty {
+        text-align: center;
+        color: #999;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Thumbnail Gallery</h1>
+    <div class="grid" id="grid"></div>
+    <p id="empty"></p>
+
+    <script>
+      async function loadGallery() {
+        const grid = document.getElementById('grid');
+        const empty = document.getElementById('empty');
+
+        try {
+          const response = await fetch('/api/thumbnails');
+          const data = await response.json();
+
+          if (data.thumbnails.length === 0) {
+            empty.innerHTML = 'No thumbnails yet. Process an image first!';
+            return;
+          }
+
+          data.thumbnails.forEach((filename) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const img = document.createElement('img');
+            img.src = `/thumbnails/${filename}`;
+
+            const label = document.createElement('p');
+            label.textContent = filename;
+
+            card.appendChild(img);
+            card.appendChild(label);
+            grid.appendChild(card);
+          });
+        } catch {
+          empty.innerHTML = 'Could not load thumbnails';
+        }
+      }
+
+      loadGallery();
+    </script>
+  </body>
+</html>
