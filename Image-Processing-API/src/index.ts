@@ -8,14 +8,14 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../src/frontend')));
-app.use('/thumbnails', express.static(path.join(__dirname, '../images/thumb')));
+app.use(express.static(path.join(__dirname, '../../src/frontend')));
+app.use('/thumbnails', express.static(path.join(__dirname, '../../images/thumb')));
 
 app.use('/api/images', imageRouter);
 app.use('/api/upload', uploadRouter);
 
 app.get('/api/thumbnails', (req, res) => {
-  const thumbPath = path.join(__dirname, '../images/thumb');
+  const thumbPath = path.join(__dirname, '../../images/thumb');
   const files = fs.readdirSync(thumbPath);
   res.json({ thumbnails: files });
 });

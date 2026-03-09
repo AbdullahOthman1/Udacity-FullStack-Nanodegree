@@ -17,8 +17,8 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  const parsedWidth = parseInt(width as string);
-  const parsedHeight = parseInt(height as string);
+  const parsedWidth = Number(width);
+  const parsedHeight = Number(height);
 
   if (
     isNaN(parsedWidth) ||

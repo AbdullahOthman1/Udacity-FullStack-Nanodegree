@@ -6,7 +6,7 @@ import logger from '../utilities/logger';
 const router = express.Router();
 
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, '../../images/full'),
+  destination: path.join(__dirname, '../../../images/full'),
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },

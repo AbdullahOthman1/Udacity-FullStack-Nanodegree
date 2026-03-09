@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "build": "tsc",
     "test": "tsc && jasmine --config=tests/support/jasmine.json",
     "lint": "eslint src/**/*.ts",
